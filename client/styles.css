@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: Sofadi One, sans-serif;
+}
+
+body {
+    background-color: rgb(52, 44, 99);
+    min-height: 100vh;
+}
+
+h1 {
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(106, 90, 205);
+    padding: 1rem;
+}
+
+@media (max-width: 670px) {
+    header {
+        flex-direction: column;
+    }   
+    header nav ul {
+        margin-top: 1rem;
+    }
+}
+
+header nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-inline: 1rem;
+    display: flex;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+header a:hover {
+    transform: scale(1.02);
+    font-weight: 600;
+}
+
+.mainBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 20rem;
+    background-color: white;
+    margin-block: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 0.125rem white;
+}
+
+.container h2 {
+    font-size: 1.5rem;
+}
+
+.productsDiv {
+    margin-block: 1em;
+    text-align: left;
+    width: 100%;
+}
+
+.productsDiv p span {
+    font-weight: 700;
+}
+
+.container input, .container select, .container button, .container input[type="submit"], .container input[type="button"] {
+    width: 100%; 
+    margin-top: 1.5rem;
+    padding: 15px;
+    border-radius: 15px;
+    border: 0px solid;
+    box-shadow: 0 0 0.125rem gray;
+}
+
+.container button, .container input[type="submit"], .container input[type="button"] {
+    cursor: pointer;
+    background-color: rgb(106, 90, 205);
+    color: white;
+    border: 0px solid;
+    box-shadow: 0 0 0;
+}
+
+.container button:hover, .container input[type="submit"]:hover, .container input[type="button"]:hover {
+    opacity: 0.9;
+}
+
+.container button:active, .container input[type="submit"]:active, .container input[type="button"]:active {
+    transform: scale(0.98);
+}
+
+

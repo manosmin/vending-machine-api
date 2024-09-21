@@ -8,12 +8,12 @@ export const register = async (req, res) => {
     try {
       const existingUser = await User.findOne({ username });
       if (existingUser) {
-        return res.status(400).json({ message: 'Username already exists' });
+        return res.status(400).json({ message: 'Error 400. Username already exists.' });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await User.create({ username, password: hashedPassword, role });
       const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
+      
       res.status(201).json({ 
         id: newUser._id, 
         username: newUser.username, 
@@ -22,10 +22,10 @@ export const register = async (req, res) => {
       });
     } catch (error) {
       if (error.name === 'ValidationError') {
-        return res.status(400).json({ message: 'Invalid input data', error: error.message });
+        return res.status(400).json({ message: 'Error 400. Invalid input data.', error: error.message });
       }
       
-      res.status(500).json({ message: 'Error registering user', error });
+      res.status(500).json({ message: 'Error 500. Error registering user.', error });
     }
   };
 
@@ -35,15 +35,15 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Error 404. User not found.' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Error 401. Invalid credentials.' });
     }
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in', error });
+    res.status(500).json({ message: 'Error 500. Error logging in.', error });
   }
 };

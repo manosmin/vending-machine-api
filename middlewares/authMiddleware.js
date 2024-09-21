@@ -4,7 +4,7 @@ export const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied. You are not authenticated.' });
+    return res.status(401).json({ message: 'Error 401. You are not authenticated.' });
   }
 
   try {
@@ -13,6 +13,6 @@ export const authMiddleware = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(403).json({ message: 'Invalid token.' });
+    res.status(401).json({ message: 'Error 401. Invalid token.' });
   }
 };

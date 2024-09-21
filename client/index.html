@@ -4,34 +4,47 @@
         <title>Vending Machine</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div id="registerForm">
-        <h2>Sign Up</h2>
-            <form action="/auth/register" method="post">
-                <input name="username" type="text" placeholder="username" required>
-                <input name="password" type="password" placeholder="password" required>
-                <select name="role" id="role">
-                    <option value="buyer">buyer</option>
-                    <option value="seller">seller</option>
-                </select>
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-        <div id="loginForm">
-            <h2>Sign In</h2>
-                <form action="/auth/login" method="post">
+        <header>
+            <a href="index.html">Vending Machine API</a>
+            <nav>
+                <ul><li><a href="transactions.html">Transactions</a></li>
+                    <li><a href="users.html">Users</a></li>
+                    <li><a href="products.html">Products</a></li></ul>
+            </nav>
+        </header>
+        <div class="mainBox">
+            <div id="registerForm" class="container" style="display: none;">
+            <h2>Register</h2>
+                <form>
                     <input name="username" type="text" placeholder="username" required>
                     <input name="password" type="password" placeholder="password" required>
+                    <select name="role" id="role">
+                        <option value="buyer">Buyer</option>
+                        <option value="seller">Seller</option>
+                    </select>
                     <input type="submit" value="Submit">
+                    <button style="background-color: rgb(60, 179, 113);" onclick="document.getElementById('loginForm').style.display='block'; document.getElementById('registerForm').style.display='none';">Already have an account?</button>
                 </form>
+            </div>
+            <div id="loginForm" class="container">
+                <h2>Sign In</h2>
+                    <form>
+                        <input name="username" type="text" placeholder="username" required>
+                        <input name="password" type="password" placeholder="password" required>
+                        <input type="submit" value="Submit">
+                        <button style="background-color: rgb(60, 179, 113);" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registerForm').style.display='block';">Don't have an account?</button>
+                    </form>
+            </div>
         </div>
     </body>
     <script>
         document.getElementById('registerForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            const username = event.target.username.value;
+            const username = event.target.username.value.trim();
             const password = event.target.password.value;
             const role = event.target.role.value;
 
@@ -47,16 +60,16 @@
             
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                window.location.href = 'products.html';
+                window.location.href = 'transactions.html';
             } else {
-                alert(data.message || 'Error registering user');
+                alert(data.message);
             }
         });
 
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            const username = event.target.username.value;
+            const username = event.target.username.value.trim();
             const password = event.target.password.value;
 
             const response = await fetch('/auth/login', {
@@ -73,7 +86,7 @@
                 localStorage.setItem('token', data.token);
                 window.location.href = 'transactions.html';
             } else {
-                alert(data.message || 'Error logging in');
+                alert(data.message);
             }
         });
     </script>

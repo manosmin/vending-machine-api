@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Manage Products</title>
+    <title>Products</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Products Dashboard</h2>
-    <div >
-        <h3>Add Product</h3>
-        <form id="addProductForm">
-            <input name="productName" type="text" placeholder="Product Name" required>
-            <input name="cost" type="number" placeholder="Cost (in cents)" required>
-            <input name="amountAvailable" type="number" placeholder="Amount Available" required>
-            <input type="button" value="Add" onclick="addProduct()">
-        </form>
-    </div>
-    <div >
-        <h3>Update Product</h3>
-        <form id="updateProductForm">
-            <input name="updateProductId" type="text" placeholder="Product ID" required>
-            <input name="updateProductName" type="text" placeholder="New Product Name">
-            <input name="updateCost" type="number" placeholder="New Cost (in cents)">
-            <input name="updateAmountAvailable" type="number" placeholder="New Amount Available">
-            <input type="button" value="Update" onclick="updateProduct()">
-        </form>
-    </div>
-    <div >
-        <h3>Delete Product</h3>
-        <form id="deleteProductForm">
-            <input name="deleteProductId" type="text" placeholder="Product ID" required>
-            <input type="button" value="Delete" onclick="deleteProduct()">
-        </form>
-        <h3>Existing Products</h3>
-        <div id="productList"></div>
-        <button onclick="logout()">Logout</button>
+    <header>
+        <a href="index.html">Vending Machine API</a>
+        <nav>
+            <ul>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="users.html">Users</a></li>
+                <li><a href="products.html">Products</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="mainBox">
+        <div class="container">
+            <h2>Add Product</h2>
+            <form id="addProductForm">
+                <input name="productName" type="text" placeholder="Product Name" required>
+                <input name="cost" type="number" placeholder="Cost (in cents)" required>
+                <input name="amountAvailable" type="number" placeholder="Amount Available" required>
+                <input type="button" value="Add" onclick="addProduct()">
+            </form>
+        </div>
+        <div class="container">
+            <h2>Update Product</h2>
+            <form id="updateProductForm">
+                <input name="updateProductId" type="text" placeholder="Product ID" required>
+                <input name="updateProductName" type="text" placeholder="New Product Name">
+                <input name="updateCost" type="number" placeholder="New Cost (in cents)">
+                <input name="updateAmountAvailable" type="number" placeholder="New Amount Available">
+                <input type="button" value="Update" onclick="updateProduct()">
+            </form>
+        </div>
+        <div class="container">
+            <h2>Delete Product</h2>
+            <form id="deleteProductForm">
+                <input name="deleteProductId" type="text" placeholder="Product ID" required>
+                <input type="button" value="Delete" onclick="deleteProduct()">
+            </form>
+        </div>
+        <div class="container">
+            <h2>All Products</h2>
+            <div id="productList"></div><button onclick="loadProducts()">Reload</button>
+            <button onclick="logout()">Sign Out</button>
+        </div>
     </div>
     <script>
         async function loadProducts() {
@@ -52,7 +66,8 @@
 
                 products.forEach(product => {
                     const div = document.createElement('div');
-                    div.textContent = `${product.productName} - ${product.cost} cents - Available: ${product.amountAvailable} (ID: ${product._id})`;
+                    div.classList.add('productsDiv');
+                    div.innerHTML = `<p><span>Name:</span> ${product.productName}</p><p><span>Cost:</span> ${product.cost} cents</p><p><span>Available:</span> ${product.amountAvailable} </p><p><span>ID:</span> ${product._id}</p>`;
                     productList.appendChild(div);
                 });
             } else {
@@ -84,13 +99,12 @@
                 if (response.ok) {
                     alert('Product added successfully!');
                     form.reset();
-                    loadProducts();
                 } else {
                     const error = await response.json();
-                    alert(`Error adding product: ${error.message}`);
+                    alert(error.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error(error);
                 alert('An error occurred while adding the product.');
             }
         }
@@ -120,13 +134,12 @@
                 if (response.ok) {
                     alert('Product updated successfully!');
                     form.reset();
-                    loadProducts();
                 } else {
                     const error = await response.json();
-                    alert(`Error updating product: ${error.message}`);
+                    alert(error.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error(error);
                 alert('An error occurred while updating the product.');
             }
         }
@@ -147,13 +160,12 @@
                 if (response.ok) {
                     alert('Product deleted successfully!');
                     form.reset();
-                    loadProducts();
                 } else {
                     const error = await response.json();
-                    alert(`Error deleting product: ${error.message}`);
+                    alert(error.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error(error);
                 alert('An error occurred while deleting the product.');
             }
         }
