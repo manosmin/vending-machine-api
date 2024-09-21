@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manage Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Products Dashboard</h2>
+    <div >
+        <h3>Add Product</h3>
+        <form id="addProductForm">
+            <input name="productName" type="text" placeholder="Product Name" required>
+            <input name="cost" type="number" placeholder="Cost (in cents)" required>
+            <input name="amountAvailable" type="number" placeholder="Amount Available" required>
+            <input type="button" value="Add" onclick="addProduct()">
+        </form>
+    </div>
+    <div >
+        <h3>Update Product</h3>
+        <form id="updateProductForm">
+            <input name="updateProductId" type="text" placeholder="Product ID" required>
+            <input name="updateProductName" type="text" placeholder="New Product Name">
+            <input name="updateCost" type="number" placeholder="New Cost (in cents)">
+            <input name="updateAmountAvailable" type="number" placeholder="New Amount Available">
+            <input type="button" value="Update" onclick="updateProduct()">
+        </form>
+    </div>
+    <div >
+        <h3>Delete Product</h3>
+        <form id="deleteProductForm">
+            <input name="deleteProductId" type="text" placeholder="Product ID" required>
+            <input type="button" value="Delete" onclick="deleteProduct()">
+        </form>
+        <h3>Existing Products</h3>
+        <div id="productList"></div>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <script>
+        async function loadProducts() {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/products', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const products = await response.json();
+                const productList = document.getElementById('productList');
+                productList.innerHTML = '';
+
+                products.forEach(product => {
+                    const div = document.createElement('div');
+                    div.textContent = `${product.productName} - ${product.cost} cents - Available: ${product.amountAvailable} (ID: ${product._id})`;
+                    productList.appendChild(div);
+                });
+            } else {
+                console.error('Failed to load products');
+            }
+        }
+
+        async function addProduct() {
+            const form = document.getElementById('addProductForm');
+            const formData = new FormData(form);
+            const productData = {
+                productName: formData.get('productName'),
+                cost: formData.get('cost'),
+                amountAvailable: formData.get('amountAvailable'),
+            };
+
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch('/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (response.ok) {
+                    alert('Product added successfully!');
+                    form.reset();
+                    loadProducts();
+                } else {
+                    const error = await response.json();
+                    alert(`Error adding product: ${error.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the product.');
+            }
+        }
+
+        async function updateProduct() {
+            const form = document.getElementById('updateProductForm');
+            const formData = new FormData(form);
+            const productId = formData.get('updateProductId');
+            const productData = {
+                productName: formData.get('updateProductName') || undefined,
+                cost: formData.get('updateCost') || undefined,
+                amountAvailable: formData.get('updateAmountAvailable') || undefined,
+            };
+
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`/products/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (response.ok) {
+                    alert('Product updated successfully!');
+                    form.reset();
+                    loadProducts();
+                } else {
+                    const error = await response.json();
+                    alert(`Error updating product: ${error.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the product.');
+            }
+        }
+
+        async function deleteProduct() {
+            const form = document.getElementById('deleteProductForm');
+            const productId = form.deleteProductId.value;
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    alert('Product deleted successfully!');
+                    form.reset();
+                    loadProducts();
+                } else {
+                    const error = await response.json();
+                    alert(`Error deleting product: ${error.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the product.');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = loadProducts;
+    </script>
+</body>
+</html>

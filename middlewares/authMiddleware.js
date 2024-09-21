@@ -4,7 +4,7 @@ export const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied.' });
+    return res.status(401).json({ message: 'Access denied. You are not authenticated.' });
   }
 
   try {
