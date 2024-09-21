@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+* {
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffa500;
+}
+
+input[type="password"], input[type="text"], .container input[type="submit"], select, .container button {
+    text-align: center;
+    padding:1rem;
+    display:block;
+    margin-block: 1.5rem;
+    width: 100%;
+    border: 1px solid white;
+    box-shadow: 0 0 0.275rem #0000001A;
+    border-radius: 1.5rem;
+}
+
+.container input[type="submit"] {
+    cursor: pointer;
+    background-color: #3cb371;
+    color: white;
+}
+
+.container button {
+    cursor: pointer;
+    background-color: #6a5acd;
+    color: white;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5rem;
+    width:100%;
+    max-width: 35rem;
+    border-radius: 2rem;
+}
+
+.container h2 {
+    font-size: 1.75rem;
+}
