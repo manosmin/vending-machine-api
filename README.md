@@ -66,6 +66,7 @@ This project is a REST API for a vending machine that allows different user role
     └── package.json
 
 ```
+
 ## Run Locally
 
 Install dependencies
@@ -79,6 +80,18 @@ Start the server
 ```bash
   npm run start
 ```
+
+## Environment
+
+Before you run the server, you should create an `.env` file in the root folder using your own variables, e.g.
+
+`DB_URL = mongodb://localhost:27017/vending_machine_db`
+
+`PORT = 5000`
+
+`NODE_ENV = DEVELOPMENT`
+
+`JWT_SECRET = MY-32-CHARACTER-ULTRA-SECURE-AND-ULTRA-LONG-KEY`
 
 ## Screenshots
 
