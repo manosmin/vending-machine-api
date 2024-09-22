@@ -23,7 +23,7 @@ async function loadProducts() {
             data.forEach(product => {
                 const div = document.createElement('div');
                 div.classList.add('productsDiv');
-                div.innerHTML = `<p><span>Name:</span> ${product.productName}</p><p><span>Cost:</span> ${product.cost} cents</p><p><span>Available:</span> ${product.amountAvailable} </p><p><span>ID:</span> ${product._id}</p>`;
+                div.innerHTML = `<p><span>Name:</span> ${product.productName}</p><p><span>Cost:</span> ${product.cost}c</p><p><span>Available:</span> ${product.amountAvailable} </p><p><span>ID:</span> ${product._id}</p>`;
                 productList.appendChild(div);
             });
         } else {

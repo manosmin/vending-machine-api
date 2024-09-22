@@ -36,7 +36,6 @@
                 <form id="buyForm">
                     <input type="text" name="productId" id="productId" placeholder="Enter Product ID" required>
                     <input type="number" name="amount" id="amount" placeholder="Enter Quantity" required>
-
                     <input type="submit" value="Buy">
                 </form>
             </div>
@@ -98,7 +97,7 @@
                 const purchaseHistoryItem = document.createElement('div');
                 purchaseHistoryItem.classList.add('productsDiv');
                 purchaseHistoryItem.innerHTML += `
-                    <p><span>Coins Spent:</span> ${data.totalSpent} cents</p>
+                    <p><span>Total Spent:</span> ${data.totalSpent}c</p>
                     <p><span>Amount:</span> ${data.productsPurchased.amount}</p>
                     <p><span>Change Returned:</span> ${data.change.length ? JSON.stringify(data.change) : 0}</p>
                     <p><span>ID:</span> ${data.productsPurchased.productId}</p>

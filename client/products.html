@@ -24,7 +24,7 @@
                 <input name="productName" type="text" placeholder="Product Name" required>
                 <input name="cost" type="number" placeholder="Cost (in cents)" required>
                 <input name="amountAvailable" type="number" placeholder="Amount Available" required>
-                <input type="button" value="Add" onclick="addProduct()">
+                <input type="submit" value="Add" onclick="addProduct()">
             </form>
         </div>
         <div class="container">
@@ -34,14 +34,14 @@
                 <input name="updateProductName" type="text" placeholder="New Product Name">
                 <input name="updateCost" type="number" placeholder="New Cost (in cents)">
                 <input name="updateAmountAvailable" type="number" placeholder="New Amount Available">
-                <input type="button" value="Update" onclick="updateProduct()">
+                <input type="submit" value="Update" onclick="updateProduct()">
             </form>
         </div>
         <div class="container">
             <h2>Delete Product</h2>
             <form id="deleteProductForm">
                 <input name="deleteProductId" type="text" placeholder="Product ID" required>
-                <input type="button" value="Delete" onclick="deleteProduct()">
+                <input type="submit" value="Delete" onclick="deleteProduct()">
             </form>
         </div>
         <div class="container">
@@ -53,50 +53,21 @@
     <script src="script.js" defer></script>
     <script>
 
-        async function loadProducts() {
-            const response = await fetch('/products', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                const products = await response.json();
-                const productList = document.getElementById('productList');
-                productList.innerHTML = '';
-
-                products.forEach(product => {
-                    const div = document.createElement('div');
-                    div.classList.add('productsDiv');
-                    div.innerHTML = `<p><span>Name:</span> ${product.productName}</p><p><span>Cost:</span> ${product.cost} cents</p><p><span>Available:</span> ${product.amountAvailable} </p><p><span>ID:</span> ${product._id}</p>`;
-                    productList.appendChild(div);
-                });
-            } else {
-                console.error('Failed to load products');
-            }
-        }
-
-        async function addProduct() {
-            const form = document.getElementById('addProductForm');
-            const formData = new FormData(form);
-            const productData = {
-                productName: formData.get('productName'),
-                cost: formData.get('cost'),
-                amountAvailable: formData.get('amountAvailable'),
-            };
+        document.getElementById('deleteProductForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = document.getElementById('deleteProductForm');
+            const productId = form.deleteProductId.value;
 
             try {
-                const response = await fetch('/products', {
-                    method: 'POST',
+                const response = await fetch(`/products/${productId}`, {
+                    method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(productData)
+                    }
                 });
 
                 if (response.ok) {
-                    alert('Product added successfully!');
+                    alert('Product deleted successfully!');
                     form.reset();
                 } else {
                     const error = await response.json();
@@ -104,11 +75,12 @@
                 }
             } catch (error) {
                 console.error(error);
-                alert('An error occurred while adding the product.');
+                alert('An error occurred while deleting the product.');
             }
-        }
+        });
 
-        async function updateProduct() {
+        document.getElementById('updateProductForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
             const form = document.getElementById('updateProductForm');
             const formData = new FormData(form);
             const productId = formData.get('updateProductId');
@@ -140,22 +112,30 @@
                 console.error(error);
                 alert('An error occurred while updating the product.');
             }
-        }
+        });
 
-        async function deleteProduct() {
-            const form = document.getElementById('deleteProductForm');
-            const productId = form.deleteProductId.value;
+        document.getElementById('addProductForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = document.getElementById('addProductForm');
+            const formData = new FormData(form);
+            const productData = {
+                productName: formData.get('productName'),
+                cost: formData.get('cost'),
+                amountAvailable: formData.get('amountAvailable'),
+            };
 
             try {
-                const response = await fetch(`/products/${productId}`, {
-                    method: 'DELETE',
+                const response = await fetch('/products', {
+                    method: 'POST',
                     headers: {
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    body: JSON.stringify(productData)
                 });
 
                 if (response.ok) {
-                    alert('Product deleted successfully!');
+                    alert('Product added successfully!');
                     form.reset();
                 } else {
                     const error = await response.json();
@@ -163,10 +143,9 @@
                 }
             } catch (error) {
                 console.error(error);
-                alert('An error occurred while deleting the product.');
+                alert('An error occurred while adding the product.');
             }
-        }
-
+        });
     </script>
 </body>
 </html>
