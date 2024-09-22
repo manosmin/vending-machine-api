@@ -19,7 +19,7 @@ export const updateUser = async (req, res) => {
 
     try {
         const user = await User.findById(req.user.id);
-        console.log(user);
+        
         if (!user) {
             return res.status(404).json({ message: 'Error 404. User not found.' });
         }
@@ -40,13 +40,13 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.user.id);
+        const deletedUser = await User.findByIdAndDelete(req.user.id);
         
-        if (!user) {
+        if (!deletedUser) {
             return res.status(404).json({ message: 'Error 404. User not found.' });
         }
-
-        res.status(200).json({ message: 'User deleted successfully.' });
+        
+        res.status(200).json({ message: 'User deleted successfully.', user: deletedUser });
     } catch (error) {
         res.status(500).json({ message: 'Error 500. Error deleting user.', error });
     }
@@ -55,7 +55,7 @@ export const deleteUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select('-password');
-        res.status(200).json(users);
+        res.status(200).json({message: 'Users retrieved succesfully', users});
     } catch (error) {
         res.status(500).json({ message: 'Error 500. Error retrieving users.', error });
     }

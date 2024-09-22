@@ -13,8 +13,16 @@ export const register = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await User.create({ username, password: hashedPassword, role });
       const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'PRODUCTION',
+        maxAge: 3600000,
+        sameSite: 'strict',
+      });
+
       res.status(201).json({ 
+        message: 'Register successful.',
         id: newUser._id, 
         username: newUser.username, 
         role: newUser.role, 
@@ -42,8 +50,31 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: 'Error 401. Invalid credentials.' });
     }
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ token });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'PRODUCTION',
+      maxAge: 3600000,
+      sameSite: 'strict',
+    });
+    
+    res.status(200).json({ message: 'Login successful.', token });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error logging in.', error });
+  } 
+};
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'PRODUCTION',
+      sameSite: 'strict',
+    });
+
+    return res.status(200).json({ message: 'Logout successful.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error 500. Error logging out.', error });
   }
 };
+

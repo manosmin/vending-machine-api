@@ -11,7 +11,7 @@ export const createProduct = async (req, res) => {
       sellerId: req.user.id
     });
 
-    res.status(201).json(newProduct);
+    res.status(201).json({ message:'Product created successfully', newProduct });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error creating product.', error });
   }
@@ -20,7 +20,7 @@ export const createProduct = async (req, res) => {
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    res.status(200).json(products);
+    res.status(200).json({ message:'Products retrieved successfully', products });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error retrieving products.', error });
   }
@@ -47,7 +47,7 @@ export const updateProduct = async (req, res) => {
       amountAvailable
     }, { new: true });
 
-    res.status(200).json(updatedProduct);
+    res.status(200).json({ message: 'Product updated successfully.', updatedProduct });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error updating product.', error });
   }
@@ -57,18 +57,18 @@ export const deleteProduct = async (req, res) => {
   const { productId } = req.params;
 
   try {
-    const product = await Product.findById(productId);
+    const deletedProduct = await Product.findById(productId);
 
-    if (!product) {
+    if (!deletedProduct) {
       return res.status(404).json({ message: 'Error 404. Product not found.' });
     }
 
-    if (product.sellerId.toString() !== req.user.id) {
+    if (deletedProduct.sellerId.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Error 403. You are not allowed to delete other sellers products.' });
     }
 
-    await Product.findByIdAndDelete(productId);
-    res.status(200).json({ message: 'Product deleted successfully.' });
+    await Product.findByIdAndDelete(deletedProduct);
+    res.status(200).json({ message: 'Product deleted successfully.', deletedProduct });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error deleting product.', error });
   }
