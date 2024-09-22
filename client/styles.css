@@ -73,7 +73,7 @@ header a {
     flex-direction: column;
     width: 100%;
     min-width: 20rem;
-    max-height: 75vh;
+    max-height: 50rem;
     overflow: auto;
     padding: 2.5rem;
     background-color: white;
