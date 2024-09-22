@@ -19,9 +19,11 @@ const userSchema = new mongoose.Schema({
     enum: ['buyer', 'seller'],
     required: true
   },
-  tokens: [{
-    type: String
-  }]
+  session: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active'
+  }
 });
 
 const User = mongoose.model('User', userSchema);

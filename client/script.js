@@ -69,6 +69,7 @@ async function loadUsers() {
                 usersList.innerHTML += `<div style="margin-top:1rem;">
                     <p><span>Username:</span> ${user.username}</p>
                     <p><span>Role:</span> ${user.role}</p>
+                    <p><span>Session:</span> ${user.session}</p>
                 </div>`;
             });
         } else {

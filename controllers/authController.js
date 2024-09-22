@@ -14,7 +14,7 @@ export const register = async (req, res) => {
       const newUser = await User.create({ username, password: hashedPassword, role });
       const token = jwt.sign({ username: newUser.username, id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      newUser.tokens.push(token);
+      newUser.session = 'active';
       await newUser.save();
 
       res.cookie('token', token, {
@@ -50,13 +50,13 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: 'Error 401. Invalid credentials.' });
     }
 
-    if (user.tokens && user.tokens.length > 0) {
+    if (user.session === 'active') {
       return res.status(403).json({ message: 'Error 403. There is already an active session using your account.' });
     }
 
     const token = jwt.sign({ username: user.username, id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    user.tokens.push(token);
+    user.session = 'active';
     await user.save();
 
     res.cookie('token', token, {
@@ -78,7 +78,7 @@ export const logout = async (req, res) => {
     const user = await User.findById(req.user.id);
 
     if (user) {
-      user.tokens = user.tokens.filter((t) => t !== token);
+      user.session = 'inactive';
       await user.save();
     }
 
@@ -103,7 +103,7 @@ export const logoutAll = async (req, res) => {
       return res.status(404).json({ message: 'Error 404. User not found.' });
     }
 
-    user.tokens = [];
+    user.session = 'inactive';
     await user.save();
 
     res.clearCookie('token', {
