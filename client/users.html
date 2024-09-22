@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="styles.css">
     <title>Users</title>
 </head>
-<body>
+<body onload="loadUsers()">
     <header>
         <a href="index.html">Vending Machine API</a>
         <nav>
@@ -42,35 +42,6 @@
     </div>
     <script src="script.js" defer></script>
     <script>
-
-        async function loadUsers() {
-            try {
-                const response = await fetch('/users', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-
-                if (response.ok) {
-                    const usersList = document.getElementById('usersList');
-                    usersList.innerHTML = '';
-                    usersList.classList.add('productsDiv')
-                    data.forEach(user => {
-                        usersList.innerHTML += `<div style="margin-top:1rem;">
-                            <p><span>Username:</span> ${user.username}</p>
-                            <p><span>Role:</span> ${user.role}</p>
-                        </div>`;
-                    });
-                } else {
-                    alert(data.message);
-                }
-            } catch (error) {
-                console.error('Error loading users:', error);
-            }
-        }
 
         document.getElementById('updateProfileForm').addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -116,8 +87,7 @@
 
                     if (response.ok) {
                         alert('Account deleted successfully!');
-                        localStorage.removeItem('token');
-                        window.location.href = 'login.html';
+                        logout();
                     } else {
                         alert(data.message);
                     }
