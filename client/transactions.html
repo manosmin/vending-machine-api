@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="loadProducts()">
     <header>
         <a href="index.html">Vending Machine </a>
         <nav>
@@ -41,6 +41,10 @@
                 </form>
             </div>
 
+            <div id="productSection" class="container">
+                <h2>Purchase History</h2>
+            </div>
+
             <div class="container">
             <h2>All Products</h2>
                 <div id="productList"></div>
@@ -48,41 +52,10 @@
                 <button onclick="logout()">Sign Out</button>
             </div>
 
-            <div id="productSection" class="container">
-                <h2>Purchase History</h2>
-            </div>
     </div>
+    <script src="script.js" defer></script>
     <script>
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'index.html';
-        }
-
-        async function loadProducts() {
-            const token = localStorage.getItem('token');
-            const response = await fetch('/products', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                const products = await response.json();
-                const productList = document.getElementById('productList');
-                productList.innerHTML = '';
-
-                products.forEach(product => {
-                    const div = document.createElement('div');
-                    div.classList.add('productsDiv');
-                    div.innerHTML = `<p><span>Name:</span> ${product.productName}</p><p><span>Cost:</span> ${product.cost} cents</p><p><span>Available:</span> ${product.amountAvailable} </p><p><span>ID:</span> ${product._id}</p>`;
-                    productList.appendChild(div);
-                });
-            } else {
-                console.error('Failed to load products');
-            }
-        }
-
-
+    
         document.getElementById('depositForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             const coin = document.getElementById('coin').value;
@@ -152,13 +125,7 @@
                 alert(data.message || 'Error resetting deposit');
             }
         });
-
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = 'index.html';
-        }
-
-        window.onload = loadProducts;
+    
     </script>
 </body>
 </html>

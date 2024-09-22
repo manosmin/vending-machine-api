@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="loadProducts()">
     <header>
         <a href="index.html">Vending Machine API</a>
         <nav>
@@ -50,9 +50,10 @@
             <button onclick="logout()">Sign Out</button>
         </div>
     </div>
+    <script src="script.js" defer></script>
     <script>
+
         async function loadProducts() {
-            const token = localStorage.getItem('token');
             const response = await fetch('/products', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -83,8 +84,6 @@
                 cost: formData.get('cost'),
                 amountAvailable: formData.get('amountAvailable'),
             };
-
-            const token = localStorage.getItem('token');
 
             try {
                 const response = await fetch('/products', {
@@ -119,7 +118,6 @@
                 amountAvailable: formData.get('updateAmountAvailable') || undefined,
             };
 
-            const token = localStorage.getItem('token');
 
             try {
                 const response = await fetch(`/products/${productId}`, {
@@ -147,7 +145,6 @@
         async function deleteProduct() {
             const form = document.getElementById('deleteProductForm');
             const productId = form.deleteProductId.value;
-            const token = localStorage.getItem('token');
 
             try {
                 const response = await fetch(`/products/${productId}`, {
@@ -170,12 +167,6 @@
             }
         }
 
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = 'index.html';
-        }
-
-        window.onload = loadProducts;
     </script>
 </body>
 </html>
