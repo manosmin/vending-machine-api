@@ -33,10 +33,11 @@
             <div id="loginForm" class="container" style="max-width: 30%;">
                 <h2>Sign In</h2>
                     <form>
-                        <input name="username" type="text" placeholder="username" required>
+                        <input name="username" type="text" placeholder="username" id="username" required>
                         <input name="password" type="password" placeholder="password" required>
                         <input type="submit" value="Submit">
                     </form>
+                    <button id="logoutAllButton" style="display: none;">Logout All</button>
                     <button style="background-color: rgb(60, 179, 113);" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registerForm').style.display='block';">Don't have an account?</button>
             </div>
         </div>
@@ -85,6 +86,27 @@
 
             if (response.ok) {
                 window.location.href = 'transactions.html';
+            } else {
+                alert(data.message);
+                document.getElementById('logoutAllButton').style.display = 'block';
+            }
+        });
+
+        document.getElementById('logoutAllButton').addEventListener('click', async function (event) {
+            const username = document.getElementById('username').value;
+            
+            const response = await fetch('/auth/logout/all', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
             } else {
                 alert(data.message);
             }

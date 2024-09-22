@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['buyer', 'seller'],
     required: true
-  }
+  },
+  tokens: [{
+    type: String
+  }]
 });
 
 const User = mongoose.model('User', userSchema);

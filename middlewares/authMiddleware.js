@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/userModel.js';
 
-export const authMiddleware = (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -9,10 +10,16 @@ export const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+    const user = await User.findById(decoded.id);
+
+    if (!user || !user.tokens.includes(token)) {
+      return res.status(401).json({ message: 'Error 401. Invalid token.' });
+    }
+
     req.user = decoded;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Error 401. Invalid token.' });
   }
 };
+
