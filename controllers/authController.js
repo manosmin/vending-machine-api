@@ -18,7 +18,7 @@ export const register = async (req, res) => {
       if (!password || password.trim().length === 0) {
         return res.status(400).json({ message: "Error 400. Password can't be empty." });
       }
-      
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await User.create({ username, password: hashedPassword, role });
       const token = jwt.sign({ username: newUser.username, id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -34,8 +34,7 @@ export const register = async (req, res) => {
       });
 
       res.status(201).json({ 
-        message: 'Register successful.',
-        token 
+        message: 'Register successful.'
       });
     } catch (error) {
       if (error.name === 'ValidationError') {
@@ -75,7 +74,7 @@ export const login = async (req, res) => {
       sameSite: 'strict',
     });
     
-    res.status(200).json({ message: 'Login successful.', token });
+    res.status(200).json({ message: 'Login successful.' });
   } catch (error) {
     res.status(500).json({ message: 'Error 500. Error logging in.', error });
   } 
