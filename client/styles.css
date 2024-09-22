@@ -59,7 +59,8 @@ header a {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 90%;
+    width:100%;
+    max-width: 90%;
     margin-inline: auto;
     gap: 2rem;
 }
@@ -71,7 +72,7 @@ header a {
     flex-basis: calc(25% - 2rem);
     flex-direction: column;
     width: 100%;
-    min-width: 25rem;
+    min-width: 20rem;
     padding: 2.5rem;
     background-color: white;
     border-radius: 15px;
