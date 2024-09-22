@@ -26,21 +26,23 @@ export const buy = async (req, res) => {
     const user = await User.findById(req.user.id);
     const product = await Product.findById(productId);
 
-    if (!Number.isInteger(amount) || amount <= 0) {
+    const parsedAmount = Number(amount);
+
+    if (!Number.isInteger(parsedAmount) || parsedAmount <= 0) {
       return res.status(400).json({ message: 'Error 400. Amount must be a positive integer.' });
     }
 
-    if (!product || product.amountAvailable < amount) {
+    if (!product || product.amountAvailable < parsedAmount) {
       return res.status(400).json({ message: 'Error 400. Insufficient product availability.' });
     }
 
-    const totalCost = product.cost * amount;
+    const totalCost = product.cost * parsedAmount;
 
     if (user.deposit < totalCost) {
       return res.status(400).json({ message: 'Error 400. Insufficient funds.' });
     }
 
-    product.amountAvailable -= amount;
+    product.amountAvailable -= parsedAmount;
     user.deposit -= totalCost;
 
     await product.save();
@@ -54,7 +56,7 @@ export const buy = async (req, res) => {
       totalSpent: totalCost,
       productsPurchased: {
         productId,
-        amount
+        parsedAmount
       },
       change: changeCoins
     });

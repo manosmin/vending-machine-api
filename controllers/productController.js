@@ -3,11 +3,22 @@ import Product from '../models/productModel.js';
 export const addProduct = async (req, res) => {
   const { productName, cost, amountAvailable } = req.body;
 
+  const parsedCost = Number(cost);
+  const parsedAmountAvailable = Number(amountAvailable);
+
+  if (!Number.isInteger(parsedCost) || parsedCost <= 0) {
+    return res.status(400).json({ message: 'Error 400. Cost must be a positive integer.' });
+  }
+
+  if (!Number.isInteger(parsedAmountAvailable) || parsedAmountAvailable <= 0) {
+    return res.status(400).json({ message: 'Error 400. Amount available must be a positive integer.' });
+  }
+
   try {
     const newProduct = await Product.create({
       productName,
-      cost,
-      amountAvailable,
+      cost: parsedCost,
+      amountAvailable: parsedAmountAvailable,
       sellerId: req.user.id
     });
 
@@ -30,6 +41,17 @@ export const updateProduct = async (req, res) => {
   const { productId } = req.params;
   const { productName, cost, amountAvailable } = req.body;
 
+  const parsedCost = Number(cost);
+  const parsedAmountAvailable = Number(amountAvailable);
+
+  if (!Number.isInteger(parsedCost) || parsedCost <= 0) {
+    return res.status(400).json({ message: 'Error 400. Cost must be a positive integer.' });
+  }
+
+  if (!Number.isInteger(parsedAmountAvailable) || parsedAmountAvailable <= 0) {
+    return res.status(400).json({ message: 'Error 400. Amount available must be a positive integer.' });
+  }
+
   try {
     const updatedProduct = await Product.findById(productId);
 
@@ -43,8 +65,8 @@ export const updateProduct = async (req, res) => {
 
     await Product.findByIdAndUpdate(productId, {
       productName,
-      cost,
-      amountAvailable
+      parsedCost,
+      parsedAmountAvailable
     }, { new: true });
 
     res.status(200).json({ message: 'Product updated successfully.', updatedProduct });
