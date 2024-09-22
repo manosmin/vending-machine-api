@@ -8,8 +8,12 @@ async function logout() {
             },
         });
 
+        const data = await response.json();
+
         if (response.ok) {
             window.location.href = 'index.html'
+        } else {
+            alert(data.message)
         }
 
     } catch (error) {
