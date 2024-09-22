@@ -27,13 +27,13 @@ export const buy = async (req, res) => {
     const product = await Product.findById(productId);
 
     if (!product || product.amountAvailable < amount) {
-      return res.status(400).json({ message: 'Error 400. Insufficient product availability' });
+      return res.status(400).json({ message: 'Error 400. Insufficient product availability.' });
     }
 
     const totalCost = product.cost * amount;
 
     if (user.deposit < totalCost) {
-      return res.status(400).json({ message: 'Error 400. Insufficient funds' });
+      return res.status(400).json({ message: 'Error 400. Insufficient funds.' });
     }
 
     product.amountAvailable -= amount;
@@ -55,7 +55,7 @@ export const buy = async (req, res) => {
       change: changeCoins
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error processing purchase', error });
+    res.status(500).json({ message: 'Error 500. Error processing purchase.', error });
   }
 };
 
@@ -64,9 +64,9 @@ export const reset = async (req, res) => {
     const user = await User.findById(req.user.id);
     user.deposit = 0;
     await user.save();
-    res.status(200).json({ message: 'Deposit reset successful', deposit: user.deposit });
+    res.status(200).json({ message: 'Deposit reset successful.', deposit: user.deposit });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error resetting deposit', error });
+    res.status(500).json({ message: 'Error 500. Error resetting deposit.', error });
   }
 };
 

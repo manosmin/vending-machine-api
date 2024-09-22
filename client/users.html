@@ -27,7 +27,10 @@
             <form id="updateProfileForm">
                 <input type="text" name="username" id="username" placeholder="New Username" required>
                 <input type="password" name="password" id="password" placeholder="New Password" required>
-                <input type="text" name="role" id="role" placeholder="Role" required>
+                <select name="role" id="role">
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
                 <button type="submit">Update</button>
             </form>
         </div>

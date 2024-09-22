@@ -8,7 +8,7 @@
 </head>
 <body onload="loadProducts()">
     <header>
-        <a href="index.html">Vending Machine </a>
+        <a href="index.html">Vending Machine API</a>
         <nav>
             <ul><li><a href="transactions.html">Transactions</a></li>
                 <li><a href="users.html">Users</a></li>
@@ -100,7 +100,7 @@
                 purchaseHistoryItem.innerHTML += `
                     <p><span>Coins Spent:</span> ${data.totalSpent} cents</p>
                     <p><span>Amount:</span> ${data.productsPurchased.amount}</p>
-                    <p><span>Change Returned:</span> ${data.change}</p>
+                    <p><span>Change Returned:</span> ${data.change.length ? JSON.stringify(data.change) : 0}</p>
                     <p><span>ID:</span> ${data.productsPurchased.productId}</p>
                 `
                 document.getElementById('productSection').appendChild(purchaseHistoryItem);

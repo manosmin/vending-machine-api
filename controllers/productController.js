@@ -13,7 +13,7 @@ export const createProduct = async (req, res) => {
 
     res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error creating product', error });
+    res.status(500).json({ message: 'Error 500. Error creating product.', error });
   }
 };
 
@@ -22,7 +22,7 @@ export const getProducts = async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error retrieving products', error });
+    res.status(500).json({ message: 'Error 500. Error retrieving products.', error });
   }
 };
 
@@ -34,7 +34,7 @@ export const updateProduct = async (req, res) => {
     const updatedProduct = await Product.findById(productId);
 
     if (!updatedProduct) {
-      return res.status(404).json({ message: 'Error 404. Product not found' });
+      return res.status(404).json({ message: 'Error 404. Product not found.' });
     }
 
     if (updatedProduct.sellerId.toString() !== req.user.id) {
@@ -49,7 +49,7 @@ export const updateProduct = async (req, res) => {
 
     res.status(200).json(updatedProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error updating product', error });
+    res.status(500).json({ message: 'Error 500. Error updating product.', error });
   }
 };
 
@@ -60,7 +60,7 @@ export const deleteProduct = async (req, res) => {
     const product = await Product.findById(productId);
 
     if (!product) {
-      return res.status(404).json({ message: 'Error 404. Product not found' });
+      return res.status(404).json({ message: 'Error 404. Product not found.' });
     }
 
     if (product.sellerId.toString() !== req.user.id) {
@@ -68,8 +68,8 @@ export const deleteProduct = async (req, res) => {
     }
 
     await Product.findByIdAndDelete(productId);
-    res.status(200).json({ message: 'Product deleted successfully' });
+    res.status(200).json({ message: 'Product deleted successfully.' });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error deleting product', error });
+    res.status(500).json({ message: 'Error 500. Error deleting product.', error });
   }
 };

@@ -6,11 +6,11 @@ export const getUser = async (req, res) => {
         const user = await User.findById(req.user.id).select('-password');
         
         if (!user) {
-            return res.status(404).json({ message: 'Error 404. User not found' });
+            return res.status(404).json({ message: 'Error 404. User not found.' });
         }
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: 'Error 500. Error retrieving user', error });
+        res.status(500).json({ message: 'Error 500. Error retrieving user.', error });
     }
 };
 
@@ -21,7 +21,7 @@ export const updateUser = async (req, res) => {
         const user = await User.findById(req.user.id);
         console.log(user);
         if (!user) {
-            return res.status(404).json({ message: 'Error 404. User not found' });
+            return res.status(404).json({ message: 'Error 404. User not found.' });
         }
 
         if (username) user.username = username;
@@ -32,9 +32,9 @@ export const updateUser = async (req, res) => {
         if (role) user.role = role;
 
         const updatedUser = await user.save();
-        res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+        res.status(200).json({ message: 'Profile updated successfully.', user: updatedUser });
     } catch (error) {
-        res.status(500).json({ message: 'Error 500. Error updating user profile', error });
+        res.status(500).json({ message: 'Error 500. Error updating user profile.', error });
     }
 };
 
@@ -43,12 +43,12 @@ export const deleteUser = async (req, res) => {
         const user = await User.findByIdAndDelete(req.user.id);
         
         if (!user) {
-            return res.status(404).json({ message: 'Error 404. User not found' });
+            return res.status(404).json({ message: 'Error 404. User not found.' });
         }
 
-        res.status(200).json({ message: 'User deleted successfully' });
+        res.status(200).json({ message: 'User deleted successfully.' });
     } catch (error) {
-        res.status(500).json({ message: 'Error 500. Error deleting user', error });
+        res.status(500).json({ message: 'Error 500. Error deleting user.', error });
     }
 };
 
@@ -57,6 +57,6 @@ export const getAllUsers = async (req, res) => {
         const users = await User.find().select('-password');
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: 'Error 500. Error retrieving users', error });
+        res.status(500).json({ message: 'Error 500. Error retrieving users.', error });
     }
 };

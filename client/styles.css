@@ -59,6 +59,7 @@ header a:hover {
 }
 
 .mainBox {
+    margin-top: 2rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -75,7 +76,6 @@ header a:hover {
     width: 100%;
     max-width: 20rem;
     background-color: white;
-    margin-block: 2rem;
     border-radius: 15px;
     box-shadow: 0 0 0.125rem white;
 }
