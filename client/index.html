@@ -47,7 +47,7 @@
         document.getElementById('registerForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            const username = event.target.username.value.trim();
+            const username = event.target.username.value;
             const password = event.target.password.value;
             const role = event.target.role.value;
 

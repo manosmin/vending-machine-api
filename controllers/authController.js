@@ -10,6 +10,15 @@ export const register = async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ message: 'Error 400. Username already exists.' });
       }
+
+      if (!username || username.trim().length === 0) {
+        return res.status(400).json({ message: "Error 400. Username can't be empty." });
+      }
+  
+      if (!password || password.trim().length === 0) {
+        return res.status(400).json({ message: "Error 400. Password can't be empty." });
+      }
+      
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await User.create({ username, password: hashedPassword, role });
       const token = jwt.sign({ username: newUser.username, id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
