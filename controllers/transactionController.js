@@ -26,6 +26,10 @@ export const buy = async (req, res) => {
     const user = await User.findById(req.user.id);
     const product = await Product.findById(productId);
 
+    if (!Number.isInteger(amount) || amount <= 0) {
+      return res.status(400).json({ message: 'Error 400. Amount must be a positive integer.' });
+    }
+
     if (!product || product.amountAvailable < amount) {
       return res.status(400).json({ message: 'Error 400. Insufficient product availability.' });
     }

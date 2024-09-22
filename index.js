@@ -29,7 +29,6 @@ app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use('/transactions', transactionRoutes);
-app.use((req, res) => { res.status(404).json({ message: 'Error 404. Endpoint not found.' }); });
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'index.html'));
