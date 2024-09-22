@@ -74,3 +74,31 @@ async function loadUsers() {
         console.error('Error loading users:', error);
     }
 }
+
+async function loadUser() {
+    try {
+        const response = await fetch('/users/profile', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            userList.classList.add('productsDiv')
+            userList.innerHTML += `<div style="margin-top:1rem;">
+                    <p><span>Username:</span> ${data.users.username}</p>
+                    <p><span>Role:</span> ${data.users.role}</p>
+                    <p><span>Amount:</span> ${data.users.deposit}</p>
+            </div>`; 
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error loading user:', error);
+    }
+}

@@ -8,7 +8,7 @@ export const getUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Error 404. User not found.' });
         }
-        res.status(200).json(user);
+        res.status(200).json({message: 'User retrieved succesfully', users: user});
     } catch (error) {
         res.status(500).json({ message: 'Error 500. Error retrieving user.', error });
     }
