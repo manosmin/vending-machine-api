@@ -4,7 +4,7 @@ export const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ message: 'Error 401. You are not authenticated.' });
+    return res.status(401).json({ message: 'Error 401. Token is missing.' });
   }
 
   try {
