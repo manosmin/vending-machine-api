@@ -24,6 +24,14 @@ export const updateUser = async (req, res) => {
             return res.status(404).json({ message: 'Error 404. User not found.' });
         }
 
+        if (username && username.trim().length === 0) {
+            return res.status(400).json({ message: "Error 400. Username can't be empty or just whitespace." });
+        }
+
+        if (password && password.trim().length === 0) {
+            return res.status(400).json({ message: "Error 400. Password can't be empty or just whitespace." });
+        }
+
         if (username) user.username = username;
         if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
