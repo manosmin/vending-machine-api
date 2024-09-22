@@ -8,7 +8,7 @@
 </head>
 <body onload="loadProducts()">
     <header>
-        <a href="index.html">Vending Machine API</a>
+        <a href="index.html">Vending Machine</a>
         <nav>
             <ul>
                 <li><a href="transactions.html">Transactions</a></li>
@@ -24,7 +24,7 @@
                 <input name="productName" type="text" placeholder="Product Name" required>
                 <input name="cost" type="number" placeholder="Cost (in cents)" required>
                 <input name="amountAvailable" type="number" placeholder="Amount Available" required>
-                <input type="submit" value="Add" onclick="addProduct()">
+                <input type="submit" value="Add">
             </form>
         </div>
         <div class="container">
@@ -34,14 +34,14 @@
                 <input name="updateProductName" type="text" placeholder="New Product Name">
                 <input name="updateCost" type="number" placeholder="New Cost (in cents)">
                 <input name="updateAmountAvailable" type="number" placeholder="New Amount Available">
-                <input type="submit" value="Update" onclick="updateProduct()">
+                <input type="submit" value="Update">
             </form>
         </div>
         <div class="container">
             <h2>Delete Product</h2>
             <form id="deleteProductForm">
                 <input name="deleteProductId" type="text" placeholder="Product ID" required>
-                <input type="submit" value="Delete" onclick="deleteProduct()">
+                <input type="submit" value="Delete">
             </form>
         </div>
         <div class="container">

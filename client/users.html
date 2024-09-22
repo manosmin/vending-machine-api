@@ -8,7 +8,7 @@
 </head>
 <body onload="loadUsers()">
     <header>
-        <a href="index.html">Vending Machine API</a>
+        <a href="index.html">Vending Machine</a>
         <nav>
             <ul><li><a href="transactions.html">Transactions</a></li>
                 <li><a href="users.html">Users</a></li>
@@ -16,17 +16,12 @@
         </nav>
     </header>
     <div class="mainBox">
-        <div class="container" id="allUsersdiv">
-            <h2>All Users</h2>
-            <div id="usersList"></div>
-            <button type="submit" onclick="loadUsers()">Get</button>
-        </div>
 
         <div class="container" id="profilediv">
             <h2>Update My Profile</h2>
             <form id="updateProfileForm">
-                <input type="text" name="username" id="username" placeholder="New Username" required>
-                <input type="password" name="password" id="password" placeholder="New Password" required>
+                <input type="text" name="username" id="username" placeholder="New Username">
+                <input type="password" name="password" id="password" placeholder="New Password">
                 <select name="role" id="role">
                     <option value="buyer">Buyer</option>
                     <option value="seller">Seller</option>
@@ -38,6 +33,12 @@
         <div class="container" id="deletediv">
             <h2>Delete My Profile</h2>
             <button id="deleteProfileButton">Delete</button>
+        </div>
+
+        <div class="container" id="allUsersdiv">
+            <h2>All Users</h2>
+            <div id="usersList"></div>
+            <button type="submit" onclick="loadUsers()">Reload</button>
         </div>
     </div>
     <script src="script.js" defer></script>

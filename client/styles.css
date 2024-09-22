@@ -51,30 +51,28 @@ header a {
     color: white;
     text-decoration: none;
     font-size: 20px;
-}
-
-header a:hover {
-    transform: scale(1.02);
     font-weight: 600;
 }
 
 .mainBox {
-    margin-top: 2rem;
+    margin-block: 2rem;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
     flex-wrap: wrap;
+    width: 90%;
+    margin-inline: auto;
     gap: 2rem;
 }
 
 .container {
     text-align: center;
     display: flex;
+    flex-grow: 1;
+    flex-basis: calc(25% - 2rem);
     flex-direction: column;
-    padding: 2.5rem;
     width: 100%;
-    max-width: 20rem;
+    min-width: 25rem;
+    padding: 2.5rem;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 0 0.125rem white;
