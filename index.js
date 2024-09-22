@@ -30,7 +30,7 @@ app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use('/transactions', transactionRoutes);
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 

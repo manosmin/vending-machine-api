@@ -32,7 +32,7 @@ export const updateUser = async (req, res) => {
         if (role) user.role = role;
 
         const updatedUser = await user.save();
-        res.status(200).json({ message: 'Profile updated successfully.', user: updatedUser });
+        res.status(200).json({ message: 'Profile updated successfully. Please login again.', user: updatedUser });
     } catch (error) {
         if (error.name === 'ValidationError') {
             return res.status(400).json({ message: 'Error 400. Invalid input data.', error: error.message });

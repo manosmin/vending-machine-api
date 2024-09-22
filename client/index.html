@@ -88,6 +88,7 @@
                 window.location.href = 'transactions.html';
             } else {
                 alert(data.message);
+                if (data.message !== 'Error 404. User not found.')
                 document.getElementById('logoutAllButton').style.display = 'block';
             }
         });
