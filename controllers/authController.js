@@ -82,7 +82,7 @@ export const logout = async (req, res) => {
       await user.save();
     }
 
-    res.clearCookie('token', {
+    res.clearCookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'PRODUCTION',
       sameSite: 'strict',
@@ -96,6 +96,7 @@ export const logout = async (req, res) => {
 
 export const logoutAll = async (req, res) => {
   try {
+    const token = req.cookies.token;
     const { username } = req.body;
 
     const user = await User.findOne({ username });
@@ -106,7 +107,7 @@ export const logoutAll = async (req, res) => {
     user.session = 'inactive';
     await user.save();
 
-    res.clearCookie('token', {
+    res.clearCookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'PRODUCTION',
       sameSite: 'strict',
