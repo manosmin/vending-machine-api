@@ -13,9 +13,9 @@ export const deposit = async (req, res) => {
     const user = await User.findById(req.user.id);
     user.deposit += amount;
     await user.save();
-    res.status(200).json({ message: 'Deposit successful', deposit: user.deposit });
+    res.status(200).json({ message: 'Deposit successful.', deposit: user.deposit });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error processing deposit', error });
+    res.status(500).json({ message: 'Error 500. Error processing deposit.', error });
   }
 };
 
@@ -50,7 +50,7 @@ export const buy = async (req, res) => {
     const changeCoins = calculateChange(change);
 
     res.status(200).json({
-      message: 'Purchase successful',
+      message: 'Purchase successful.',
       totalSpent: totalCost,
       productsPurchased: {
         productId,

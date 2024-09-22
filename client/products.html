@@ -66,13 +66,13 @@
                         'Content-Type': 'application/json'
                     }
                 });
+                const data = await response.json();
 
                 if (response.ok) {
-                    alert('Product deleted successfully!');
+                    alert(data.message);
                     form.reset();
                 } else {
-                    const error = await response.json();
-                    alert(error.message);
+                    alert(data.message);
                 }
             } catch (error) {
                 console.error(error);
@@ -101,13 +101,13 @@
                     },
                     body: JSON.stringify(productData)
                 });
+                const data = await response.json();
 
                 if (response.ok) {
-                    alert('Product updated successfully!');
+                    alert(data.message);
                     form.reset();
                 } else {
-                    const error = await response.json();
-                    alert(error.message);
+                    alert(data.message);
                 }
             } catch (error) {
                 console.error(error);
@@ -135,12 +135,13 @@
                     body: JSON.stringify(productData)
                 });
 
+                const data = await response.json();
+
                 if (response.ok) {
-                    alert('Product added successfully!');
+                    alert(data.message);
                     form.reset();
                 } else {
-                    const error = await response.json();
-                    alert(error.message);
+                    alert(data.message);
                 }
             } catch (error) {
                 console.error(error);

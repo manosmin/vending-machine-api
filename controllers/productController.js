@@ -1,6 +1,6 @@
 import Product from '../models/productModel.js';
 
-export const createProduct = async (req, res) => {
+export const addProduct = async (req, res) => {
   const { productName, cost, amountAvailable } = req.body;
 
   try {
@@ -11,9 +11,9 @@ export const createProduct = async (req, res) => {
       sellerId: req.user.id
     });
 
-    res.status(201).json({ message:'Product created successfully', newProduct });
+    res.status(201).json({ message:'Product added successfully', newProduct });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error creating product.', error });
+    res.status(500).json({ message: 'Error 500. Error adding product.', error });
   }
 };
 

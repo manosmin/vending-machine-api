@@ -72,9 +72,9 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert(`Successfully deposited ${coin} cents.`);
+                alert(data.message);
             } else {
-                alert(data.message || 'Error depositing coins');
+                alert(data.message || 'Error depositing coins.');
             }
         });
 
@@ -104,8 +104,9 @@
                     <p><span>ID:</span> ${data.productsPurchased.productId}</p>
                 `
                 document.getElementById('productSection').appendChild(purchaseHistoryItem);
+                alert(data.message);
             } else {
-                alert(data.message || 'Error making purchase');
+                alert(data.message || 'Error making purchase.');
             }
         });
 
@@ -121,9 +122,9 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert('Deposit successfully reset.');
+                alert(data.message);
             } else {
-                alert(data.message || 'Error resetting deposit');
+                alert(data.message || 'Error resetting deposit.');
             }
         });
     

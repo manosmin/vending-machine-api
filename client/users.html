@@ -75,7 +75,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Profile updated successfully!');
+                    alert(data.message);
                 } else {
                     alert(data.message);
                 }
@@ -97,7 +97,7 @@
                     const data = await response.json();
 
                     if (response.ok) {
-                        alert('Account deleted successfully!');
+                        alert(data.message);
                         logout();
                     } else {
                         alert(data.message);
