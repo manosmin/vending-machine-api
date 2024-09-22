@@ -73,6 +73,8 @@ header a {
     flex-direction: column;
     width: 100%;
     min-width: 20rem;
+    max-height: 75vh;
+    overflow: auto;
     padding: 2.5rem;
     background-color: white;
     border-radius: 15px;
@@ -87,6 +89,7 @@ header a {
     margin-block: 1em;
     text-align: left;
     width: 100%;
+    word-wrap: break-word;
 }
 
 .productsDiv p span {
