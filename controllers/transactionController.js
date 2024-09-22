@@ -57,7 +57,7 @@ export const buy = async (req, res) => {
       totalSpent: totalCost,
       productsPurchased: {
         productId,
-        parsedAmount
+        amount: parsedAmount
       },
       change: changeCoins
     });
