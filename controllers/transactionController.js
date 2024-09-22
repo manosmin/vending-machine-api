@@ -3,15 +3,16 @@ import Product from '../models/productModel.js';
 
 export const deposit = async (req, res) => {
   const { amount } = req.body;
+  const parsedAmount = parseInt(amount);
 
   const validCoins = [5, 10, 20, 50, 100];
-  if (!validCoins.includes(amount)) {
+  if (!validCoins.includes(parsedAmount)) {
     return res.status(400).json({ message: 'Error 400. Invalid coin value. Accepted coins: 5, 10, 20, 50, 100.' });
   }
 
   try {
     const user = await User.findById(req.user.id);
-    user.deposit += amount;
+    user.deposit += parsedAmount;
     await user.save();
     res.status(200).json({ message: 'Deposit successful.', deposit: user.deposit });
   } catch (error) {
