@@ -1,79 +1,114 @@
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
+import { body, validationResult } from 'express-validator';
 
-export const deposit = async (req, res) => {
-  const { amount } = req.body;
-  const parsedAmount = parseInt(amount);
-
-  const validCoins = [5, 10, 20, 50, 100];
-  if (!validCoins.includes(parsedAmount)) {
-    return res.status(400).json({ message: 'Error 400. Invalid coin value. Accepted coins: 5, 10, 20, 50, 100.' });
-  }
-
-  try {
-    const user = await User.findById(req.user.id);
-    user.deposit += parsedAmount;
-    await user.save();
-    res.status(200).json({ message: 'Deposit successful.', deposit: user.deposit });
-  } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error processing deposit.', error });
-  }
-};
-
-export const buy = async (req, res) => {
-  const { productId, amount } = req.body;
-
-  try {
-    const user = await User.findById(req.user.id);
-    const product = await Product.findById(productId);
-
-    const parsedAmount = Number(amount);
-
-    if (!Number.isInteger(parsedAmount) || parsedAmount <= 0) {
-      return res.status(400).json({ message: 'Error 400. Amount must be a positive integer.' });
+export const deposit = [
+  body('amount').isInt({ gt: 0 }).withMessage('Amount must be a positive integer.').toInt(),
+  
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: 'Error 400. Invalid input data.', errors: errors.array() });
     }
 
-    if (!product || product.amountAvailable < parsedAmount) {
-      return res.status(400).json({ message: 'Error 400. Insufficient product availability.' });
+    const { amount } = req.body;
+    const validCoins = [5, 10, 20, 50, 100];
+
+    if (!validCoins.includes(amount)) {
+      return res.status(400).json({
+        message: 'Error 400. Invalid coin value. Accepted coins: 5, 10, 20, 50, 100.'
+      });
     }
 
-    const totalCost = product.cost * parsedAmount;
+    try {
+      const user = await User.findById(req.user.id);
+      user.deposit += amount;
+      await user.save();
 
-    if (user.deposit < totalCost) {
-      return res.status(400).json({ message: 'Error 400. Insufficient funds.' });
+      return res.status(200).json({
+        message: 'Deposit successful.',
+        deposit: user.deposit
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error 500. Error processing deposit.',
+        error: error.message
+      });
     }
-
-    product.amountAvailable -= parsedAmount;
-    user.deposit -= totalCost;
-
-    await product.save();
-    await user.save();
-
-    const change = user.deposit;
-    const changeCoins = calculateChange(change);
-
-    res.status(200).json({
-      message: 'Purchase successful.',
-      totalSpent: totalCost,
-      productsPurchased: {
-        productId,
-        amount: parsedAmount
-      },
-      change: changeCoins
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error processing purchase.', error });
   }
-};
+];
+
+export const buy = [
+  body('productId').isMongoId().withMessage('Invalid product ID.'),
+  body('amount').isInt({ gt: 0 }).withMessage('Amount must be a positive integer.').toInt(),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: 'Error 400. Invalid input data.', errors: errors.array() });
+    }
+
+    const { productId, amount } = req.body;
+
+    try {
+      const user = await User.findById(req.user.id);
+      const product = await Product.findById(productId);
+
+      if (!product) {
+        return res.status(404).json({ message: 'Error 404. Product not found.' });
+      }
+
+      if (product.amountAvailable < amount) {
+        return res.status(400).json({ message: 'Error 400. Insufficient product availability.' });
+      }
+
+      const totalCost = product.cost * amount;
+
+      if (user.deposit < totalCost) {
+        return res.status(400).json({ message: 'Error 400. Insufficient funds.' });
+      }
+
+      product.amountAvailable -= amount;
+      user.deposit -= totalCost;
+
+      await product.save();
+      await user.save();
+
+      const changeCoins = calculateChange(user.deposit);
+
+      return res.status(200).json({
+        message: 'Purchase successful.',
+        totalSpent: totalCost,
+        productsPurchased: {
+          productId,
+          amount
+        },
+        change: changeCoins
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error 500. Error processing purchase.',
+        error: error.message
+      });
+    }
+  }
+];
 
 export const reset = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     user.deposit = 0;
     await user.save();
-    res.status(200).json({ message: 'Deposit reset successful.', deposit: user.deposit });
+
+    return res.status(200).json({
+      message: 'Deposit reset successful.',
+      deposit: user.deposit
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error 500. Error resetting deposit.', error });
+    return res.status(500).json({
+      message: 'Error 500. Error resetting deposit.',
+      error: error.message
+    });
   }
 };
 
