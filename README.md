@@ -7,7 +7,7 @@ This project is a REST API for a vending machine that allows different user role
 
 ## Features
 
-- **Authentication:** Secure access using authentication using JWT.
+- **Authentication:** Secure access using JWT authentication.
 - **Role-based Access:**
   - **Sellers:** Can manage products through CRUD operations. They can't delete or update other sellers products, but only their own.
   - **Buyers:** Can deposit coins, buy products and reset their deposit, through CRUD operations.
