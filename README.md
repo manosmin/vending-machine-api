@@ -19,7 +19,7 @@ This project is a REST API for a vending machine that allows different user role
 
 **Server:** Node.js, Express.js, MongoDB
 
-**Tools:** Postman
+**Libraries**: express-validator, jsonwebtoken, mongoose, cookie-parser, bcryptjs, cors, dotenv, morgan
 
 
 ## API Documentation
@@ -66,6 +66,20 @@ This project is a REST API for a vending machine that allows different user role
     └── package.json
 
 ```
+The project is organized into several key directories and files, each serving a distinct purpose in the API development process. More specifically:
+
+`client/`: Frontend assets for the vending machine API.
+
+`config/`: Configuration files for setting up the project.
+
+`controllers/`: Controller logic that handles the main API functionality.
+
+`middlewares/`: Custom middleware functions that are used to control access and validate requests.
+
+`models/`: Mongoose models, which define the structure and behavior of the data stored in the database.
+
+`routes/`: Routing logic for the API. These routes map HTTP requests to controller functions.
+
 
 ## Run Locally
 
@@ -83,7 +97,7 @@ Start the server
 
 ## Environment
 
-Before you run the server, you should create an `.env` file in the root folder using your own variables, e.g.
+Before you start the server, you should create an `.env` file in the root folder using your own variables, e.g.
 
 `DB_URL = mongodb://localhost:27017/vending_machine_db`
 
