@@ -25,10 +25,7 @@ async function loadProducts() {
     try {
         const response = await fetch('/products', {
             method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            credentials: 'include'
         }); 
         const data = await response.json();
 
@@ -54,10 +51,7 @@ async function loadUsers() {
     try {
         const response = await fetch('/users', {
             method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            credentials: 'include'
         });
         const data = await response.json();
 
@@ -84,10 +78,7 @@ async function loadUser() {
     try {
         const response = await fetch('/users/profile', {
             method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            credentials: 'include'
         });
         const data = await response.json();
 

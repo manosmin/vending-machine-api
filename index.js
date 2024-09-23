@@ -25,6 +25,18 @@ app.use(cors());
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'client')));
 
+app.use((req, res, next) => {
+    if (['POST', 'PUT'].includes(req.method)) {
+        if (req.headers['content-type'] === 'application/json') {
+            next();
+        } else {
+            return res.status(415).send({ error: 'Error 415. Unsupported Media Type.' });
+        }
+    } else {
+        next();
+    }
+});
+
 app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
