@@ -87,9 +87,9 @@ async function loadUser() {
             userList.innerHTML = '';
             userList.classList.add('productsDiv')
             userList.innerHTML += `<div style="margin-top:1rem;">
-                    <p><span>Username:</span> ${data.users.username}</p>
-                    <p><span>Role:</span> ${data.users.role}</p>
-                    <p><span>Amount:</span> ${data.users.deposit}</p>
+                    <p><span>Username:</span> ${data.user.username}</p>
+                    <p><span>Role:</span> ${data.user.role}</p>
+                    <p><span>Amount:</span> ${data.user.deposit}</p>
             </div>`; 
         } else {
             alert(data.message);
