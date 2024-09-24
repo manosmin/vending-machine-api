@@ -41,6 +41,17 @@
                     <button style="background-color: rgb(60, 179, 113);" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registerForm').style.display='block';">Don't have an account?</button>
             </div>
         </div>
+        <dialog id="modal">
+            <div class="modal-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 24px;
+                height: 24px;
+                fill: #000;">
+                  <path d="M18 6.41L16.59 5 12 9.59 7.41 5 6 6.41 10.59 11 6 15.59 7.41 17 12 12.41 16.59 17 18 15.59 13.41 11z"/>
+                </svg>
+            </div>
+            <h4>Message</h4>
+            <p></p>
+        </dialog>
     </body>
     <script src="script.js" defer></script>
     <script>
@@ -64,7 +75,7 @@
             if (response.ok) {
                 window.location.href = 'transactions.html';
             } else {
-                alert(data.message);
+                openModal(data.message);
             }
         });
 
@@ -87,7 +98,7 @@
             if (response.ok) {
                 window.location.href = 'transactions.html';
             } else {
-                alert(data.message);
+                openModal(data.message);
                 if (data.message === 'Error 403. There is already an active session using your account.')
                 document.getElementById('logoutAllButton').style.display = 'block';
             }
@@ -107,9 +118,9 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert(data.message);
+                openModal(data.message);
             } else {
-                alert(data.message);
+                openModal(data.message);
             }
         });
     </script>

@@ -1,4 +1,4 @@
-async function logout() {
+async function logout(f) {
     try {
         const response = await fetch('/auth/logout', {
             method: 'POST',
@@ -10,11 +10,7 @@ async function logout() {
 
         const data = await response.json();
 
-        if (response.ok) {
-            window.location.href = 'index.html'
-        } else {
-            alert(data.message)
-        }
+        if (f) openModal(data.message);
 
     } catch (error) {
         console.error('Logout failed:', error);
@@ -40,7 +36,7 @@ async function loadProducts() {
                 productList.appendChild(div);
             });
         } else {
-            alert(data.message);
+            openModal(data.message);
         }
     } catch (error) {
         console.error('Error loading products:', error);
@@ -67,7 +63,7 @@ async function loadUsers() {
                 </div>`;
             });
         } else {
-            alert(data.message);
+            openModal(data.message);
         }
     } catch (error) {
         console.error('Error loading users:', error);
@@ -92,9 +88,23 @@ async function loadUser() {
                     <p><span>Amount:</span> ${data.user.deposit}</p>
             </div>`; 
         } else {
-            alert(data.message);
+            openModal(data.message);
         }
     } catch (error) {
         console.error('Error loading user:', error);
     }
 }
+
+function openModal(msg) {
+    console.log("foo");
+    const modal = document.getElementById("modal");
+    modal.showModal();
+  
+    const modalBody = modal.querySelector("p");
+    modalBody.innerHTML = msg;
+  
+    const modalCloseButton = modal.querySelector(".modal-btn");
+    modalCloseButton.addEventListener("click", () => {
+      modal.close();
+    });
+  }

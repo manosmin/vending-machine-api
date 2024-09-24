@@ -21,7 +21,7 @@
             <h2>My Profile</h2>
             <div id="userList"></div>
             <button type="submit" onclick="loadUser()">Reload</button>
-            <button onclick="logout()">Sign Out</button>
+            <button onclick="logout(true)">Sign Out</button>
         </div>
 
         <div class="container" id="profilediv">
@@ -75,10 +75,9 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert(data.message);
-                    logout();
+                    logout().then(openModal(data.message));
                 } else {
-                    alert(data.message);
+                    openModal(data.message);
                 }
             } catch (error) {
                 console.error('Error updating profile:', error);
@@ -86,26 +85,35 @@
         });
 
         document.getElementById('deleteProfileButton').addEventListener('click', async function() {
-            if (confirm('Are you sure you want to delete your account?')) {
-                try {
-                    const response = await fetch('/users/profile', {
-                        method: 'DELETE',
-                        credentials: 'include'
-                    });
-                    const data = await response.json();
+            try {
+                const response = await fetch('/users/profile', {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const data = await response.json();
 
-                    if (response.ok) {
-                        alert(data.message);
-                        logout();
-                    } else {
-                        alert(data.message);
-                    }
-                } catch (error) {
-                    console.error('Error deleting profile:', error);
+                if (response.ok) {
+                    logout().then(openModal(data.message));
+                } else {
+                    openModal(data.message);
                 }
+            } catch (error) {
+                    console.error('Error deleting profile:', error);
             }
+            
         });
 
     </script>
+    <dialog id="modal">
+        <div class="modal-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 24px;
+            height: 24px;
+            fill: #000;">
+              <path d="M18 6.41L16.59 5 12 9.59 7.41 5 6 6.41 10.59 11 6 15.59 7.41 17 12 12.41 16.59 17 18 15.59 13.41 11z"/>
+            </svg>
+        </div>
+        <h4>Message</h4>
+        <p></p>
+    </dialog>
 </body>
 </html>
