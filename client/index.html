@@ -88,7 +88,7 @@
                 window.location.href = 'transactions.html';
             } else {
                 alert(data.message);
-                if (data.message !== 'Error 404. User not found.')
+                if (data.message === 'Error 403. There is already an active session using your account.')
                 document.getElementById('logoutAllButton').style.display = 'block';
             }
         });
